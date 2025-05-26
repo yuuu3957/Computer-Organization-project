@@ -35,6 +35,11 @@ class BaseReplacementPolicy(SimObject):
     abstract = True
     cxx_header = "mem/cache/replacement_policies/base.hh"
 
+class FBRP(BaseReplacementPolicy):
+    type = 'FBRP'
+    cxx_class = 'FBRP'
+    cxx_header = "mem/cache/replacement_policies/fb_rp.hh"
+
 class FIFORP(BaseReplacementPolicy):
     type = 'FIFORP'
     cxx_class = 'FIFORP'
