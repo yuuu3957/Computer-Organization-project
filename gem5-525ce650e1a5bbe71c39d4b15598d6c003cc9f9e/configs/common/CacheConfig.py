@@ -102,6 +102,7 @@ def config_cache(options, system):
 	system.l3.cpu_side = system.tol3bus.master
         system.l3.mem_side = system.membus.slave
 
+
     if options.memchecker:
         system.memchecker = MemChecker()
 

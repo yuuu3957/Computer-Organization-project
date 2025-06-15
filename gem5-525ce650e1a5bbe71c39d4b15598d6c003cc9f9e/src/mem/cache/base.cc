@@ -1049,7 +1049,7 @@ BaseCache::access(PacketPtr pkt, CacheBlk *&blk, Cycles &lat,
         assert(blk);
         // TODO: the coherent cache can assert(!blk->isDirty());
         if (!pkt->writeThrough()) {
-            blk->status |= BlkDirty;
+            blk->status |= BlkDirty; //write through don't need dirty
         }
         // nothing else to do; writeback doesn't expect response
         assert(!pkt->needsResponse());
@@ -1069,6 +1069,12 @@ BaseCache::access(PacketPtr pkt, CacheBlk *&blk, Cycles &lat,
         incHitCount(pkt);
         satisfyRequest(pkt, blk);
         maintainClusivity(pkt->fromCache(), blk);
+	
+	// new add for write through
+	if(blk->isWritable()) {
+		PacketPtr writeclean_pkt = writecleanBlk(blk, pkt->req->getDest(),pkt->id);
+		writebacks.push_back(writeclean_pkt);
+	}
 
         return true;
     }
